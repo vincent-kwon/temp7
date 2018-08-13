@@ -13,10 +13,17 @@ private:
     delete node;
   }
 
+  static void MultipleNodeTest() {
+    Node *node = new Node('A');
+    Node *insertedNode = node->InsertPreviousNode('B');
+    
+    ASSERT_EQ(insertedNode, node->GetPreviousNode());
+  }
 public:
   static void RunTest() {
     SingleNodeTest();
     // add more..
+    MultipleNodeTest();
   }
 };
 
