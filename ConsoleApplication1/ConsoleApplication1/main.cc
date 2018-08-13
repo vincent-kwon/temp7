@@ -2,10 +2,14 @@
 
 #include <cstdio>
 #include <cstring>
+#include <iostream>
 
 #include "node.h"
 #include "typing_machine.h"
 #include "getch.h"
+#include <vector>
+
+using namespace std;
 
 const char full_board[5][34] = {
   "+-------+   +-------+   +-------+",
@@ -140,8 +144,53 @@ void TestTypingMachine() {
     }
   }
 }
+extern std::vector<int> CountingSort(std::vector<int> V);
+extern std::vector<int> InsertionSort(std::vector<int> V);
+extern std::vector<int> QuickSort(std::vector<int> V);
+
+void TestCountSort() {
+  cout << "Count sort test..." << endl;
+  vector<int> myVector = {9, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
+  vector<int> myVector2 = {100, 99, 100, 99, 98, 100};
+  vector<int> returnedVector = CountingSort(myVector);
+  for (auto i : returnedVector) {
+    cout << i << " ";
+  }
+  cout << "" << endl;
+  cout << "Count sort test..." << endl;
+}
+
+void TestInsertionSort() {
+  cout << "Insertion sort test..." << endl;
+  vector<int> myVector = { 9, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
+  //vector<int> myVector = { 97, 98, 99, 100 };
+  vector<int> returnedVector = InsertionSort(myVector);
+  for (auto i : returnedVector) {
+    cout << i << " ";
+  }
+  cout << "" << endl;
+  cout << "Insertion sort test..." << endl;
+}
+
+void TestQuickSort() {
+  cout << "Quick sort test..." << endl;
+  //vector<int> myVector = { 9, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
+  vector<int> myVector = { 100, 100, 100 };
+  vector<int> myVector2 = { 100, 99, 100, 99, 98, 100 };
+  vector<int> returnedVector = QuickSort(myVector);
+  for (auto i : returnedVector) {
+    cout << i << " ";
+  }
+  cout << "" << endl;
+  cout << "Quick sort test..." << endl;
+}
+
 
 int main() {
+  //TestCountSort();
+  //TestInsertionSort();
+  TestQuickSort();
+  /*
   puts("1: Test Node.");
   puts("2: Test Typing Machine.");
   while (true) {
@@ -155,6 +204,7 @@ int main() {
       return 0;
     }
   }
+  */
 }
 
 

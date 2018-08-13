@@ -1,7 +1,7 @@
 #include <vector>
 
 std::vector<int> CountingSort(std::vector<int> V) {
-  std::vector<int> counting_array(V.size() + 10, 0);
+  std::vector<int> counting_array(101, 0); // max is 101, 0 <= .. <= 100
   for (int i = 0; i < static_cast<int>(V.size()); ++i) {
     ++counting_array[V[i]];
   }
@@ -27,8 +27,8 @@ std::vector<int> InsertionSort(std::vector<int> V) {
   }
 
   for (int i = 0; i < static_cast<int>(V.size()) - 1; ++i) {
-    int min_index = 0;
-    for (int j = i; j < static_cast<int>(V.size()); ++j) {
+    int min_index = i;
+    for (int j = i + 1; j < static_cast<int>(V.size()); ++j) {
       if (V[min_index] > V[j]) {
         min_index = j;
       }
