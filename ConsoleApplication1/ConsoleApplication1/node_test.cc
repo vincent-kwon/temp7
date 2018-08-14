@@ -8,9 +8,10 @@ class NodeConstructorTestSuite
 {
 private:
   static void SingleNodeTest() {
-    Node *node = new Node('A');
-    ASSERT_NE(node, nullptr);
-    ASSERT_EQ(node->GetData(), 'A');
+    Node *node = new Node('A'); 
+    ASSERT_NE(node, nullptr); 
+    ASSERT_EQ(node->GetData(), 'A'); // should make Node storing data as internal data
+    // This function should return internal data.
     delete node;
   }
 public:
@@ -28,24 +29,32 @@ private:
     ASSERT_EQ(insertedNode, node->GetPreviousNode());
     ASSERT_NE(insertedNode, nullptr);
     ASSERT_EQ(insertedNode->GetNextNode(), node);
+    ASSERT_EQ(insertedNode->GetNextNode()->GetData(), 'A');
+
     delete(node); // TODO: and other clean code needed
   }
   static void NodeSingleInsertPreviousTestWhenExist() {
     Node *node = new Node('A');
     Node *insertedNode = node->InsertPreviousNode('B');
-    Node *insertedNode2 = node->InsertPreviousNode('C');
+    Node *insertedNode2 = node->InsertPreviousNode('C'); // B - C - A
     ASSERT_EQ(insertedNode2, node->GetPreviousNode());
     ASSERT_EQ(insertedNode2->GetNextNode(), node);
 
     ASSERT_EQ(insertedNode, insertedNode2->GetPreviousNode());
     ASSERT_EQ(insertedNode->GetNextNode(), insertedNode2);
+
+    ASSERT_EQ(node->GetPreviousNode()->GetPreviousNode(), insertedNode);
+    ASSERT_EQ(insertedNode->GetNextNode()->GetNextNode(), node);
     delete(node); // TODO: and other clean code needed
   }
+
   static void NodeSingleInsertNextTest() {
     Node *node = new Node('C');
     Node *insertedNode = node->InsertNextNode('D');
     ASSERT_EQ(insertedNode, node->GetNextNode());
+    ASSERT_EQ(node->GetNextNode()->GetData(), 'D');
     ASSERT_EQ(insertedNode->GetPreviousNode(), node);
+    ASSERT_EQ(insertedNode->GetPreviousNode()->GetData(), 'C');
     delete(node); // TODO: and other clean code needed
   }
   static void NodeSingleInsertNextTestWhenExist() {
@@ -68,7 +77,7 @@ private:
   static void NodeSingleInsertPreviousNextTest() {
     Node *node = new Node('E');
     Node *insertedNode = node->InsertNextNode('F');
-    Node *insertedNode2 = node->InsertPreviousNode('D');
+    Node *insertedNode2 = node->InsertPreviousNode('D'); // D - E - F
     ASSERT_NE(insertedNode, nullptr);
     ASSERT_NE(insertedNode2, nullptr);
     ASSERT_EQ(insertedNode, node->GetNextNode());
@@ -91,6 +100,8 @@ class NodeEraseTestSuite
 private:
   static void NodeSingleErasePreviousTest() {
     Node *node = new Node('A');
+
+    // exist test
     Node *insertedNode = node->InsertPreviousNode('B');
     bool returnValue = node->ErasePreviousNode();
 
@@ -119,13 +130,20 @@ private:
     delete(node); // TODO: and other clean code needed
   }
   static void NodeSingleEraseNextTest() {
+
+    // exist test
     Node *node = new Node('A');
     Node *insertedNode = node->InsertNextNode('B');
     bool returnValue = node->EraseNextNode();
 
     ASSERT_EQ(returnValue, true);
-    ASSERT_NE(node->GetNextNode(), insertedNode);
+    ASSERT_EQ(node->GetNextNode(), (Node*) nullptr);
 
+    // non-exist test
+    returnValue = node->EraseNextNode();
+    ASSERT_EQ(returnValue, false);
+
+    ASSERT_EQ(node->GetData(), 'A');
     delete(node); // TODO: and other clean code needed
   }
 
